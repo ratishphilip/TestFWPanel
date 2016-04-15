@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -45,15 +46,31 @@ namespace TestFWPanel
                                       };
 
             Loaded += MainWindow_Loaded;
+            SizeChanged += MainPage_SizeChanged;
+        }
+
+        private async void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                fwPanel.Width = ContainerGrid.ActualWidth;
+                fwPanel.Height = ContainerGrid.ActualHeight;
+                RefreshPanel();
+            });
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var items = new ObservableCollection<UIElement>();
             var count = 12;
+            var prev = 0;
+            var next = 0;
             for (var i = 0; i < count; i++)
             {
-                var brush = _brushes[_random.Next(_brushes.Length)];
+                while (next == prev)
+                    next = _random.Next(_brushes.Length);
+
+                var brush = _brushes[next];
 
                 var ctrl = new FluidItemControl
                 {
@@ -64,44 +81,49 @@ namespace TestFWPanel
                 };
 
                 items.Add(ctrl);
+                prev = next;
             }
 
             fwPanel.ItemsSource = items;
 
+            rows = 3;
+            columns = 4;
             LandscapeRB.IsChecked = true;
         }
 
-        private void OnLandscape(object sender, RoutedEventArgs e)
+        private async void OnLandscape(object sender, RoutedEventArgs e)
         {
             rows = 3;
             columns = 4;
-            fwPanel.Width = 300;
-            fwPanel.Height = 200;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, RefreshPanel);
         }
 
-        private void OnPortrait(object sender, RoutedEventArgs e)
+        private async void OnPortrait(object sender, RoutedEventArgs e)
         {
             rows = 4;
             columns = 3;
-            fwPanel.Width = 200;
-            fwPanel.Height = 300;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, RefreshPanel);
         }
 
-        private void OnPhone(object sender, RoutedEventArgs e)
+        private async void OnPhone(object sender, RoutedEventArgs e)
         {
             rows = 6;
             columns = 2;
-            fwPanel.Width = 150;
-            fwPanel.Height = 250;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, RefreshPanel);
         }
 
         private void OnFWPSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            RefreshPanel();
+        }
+
+        private void RefreshPanel()
+        {
             if ((rows.IsZero()) || (columns.IsZero()))
                 return;
 
-            var width = fwPanel.Width / columns;
-            var height = fwPanel.Height / rows;
+            var width = Math.Floor(fwPanel.Width / columns);
+            var height = Math.Floor(fwPanel.Height / rows);
 
             foreach (var child in fwPanel.FluidItems.OfType<FluidItemControl>())
             {
@@ -111,8 +133,6 @@ namespace TestFWPanel
 
             fwPanel.ItemWidth = width;
             fwPanel.ItemHeight = height;
-
-            fwPanel.InvalidateMeasure();
         }
     }
 }
