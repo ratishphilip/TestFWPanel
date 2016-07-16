@@ -4,7 +4,7 @@
                 xmlns:local="using:TestFWPanel"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                xmlns:wpfSpark="using:WPFSpark"
+                xmlns:controls="using:CompositionProToolkit.Controls"
                 x:Name="RootPage"
                 mc:Ignorable="d">
     <local:PageBase.Resources>
@@ -50,7 +50,7 @@
         <Grid x:Name="ContainerGrid"
               HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch">
-            <wpfSpark:FluidWrapPanel x:Name="fwPanel"
+            <controls:FluidWrapPanel x:Name="fwPanel"
                                      Background="Beige"
                                      Margin="0"
                                      HorizontalAlignment="Stretch"
@@ -58,8 +58,9 @@
                                      ItemWidth="2"
                                      ItemHeight="2"
                                      IsComposing="True"
-                                     SizeChanged="OnFWPSizeChanged"></wpfSpark:FluidWrapPanel>
+                                     SizeChanged="OnFWPSizeChanged"></controls:FluidWrapPanel>
 
         </Grid>
     </Grid>
 </local:PageBase>
+

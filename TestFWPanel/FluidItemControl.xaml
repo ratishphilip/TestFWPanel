@@ -6,7 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
              xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
-             xmlns:wpfspark="using:WPFSpark"
+             xmlns:controls="using:CompositionProToolkit.Controls"
              HorizontalAlignment="Stretch"
              VerticalAlignment="Stretch"
              mc:Ignorable="d"
@@ -14,7 +14,7 @@
              d:DesignHeight="300"
              d:DesignWidth="400">
     <Interactivity:Interaction.Behaviors>
-        <wpfspark:FluidPointerDragBehavior DragButton="MouseLeftButton"></wpfspark:FluidPointerDragBehavior>
+        <controls:FluidPointerDragBehavior DragButton="MouseLeftButton"></controls:FluidPointerDragBehavior>
     </Interactivity:Interaction.Behaviors>
     <Grid>
         <Border x:Name="fillBorder"
