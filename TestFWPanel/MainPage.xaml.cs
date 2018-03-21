@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CompositionProToolkit;
+using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using CompositionProToolkit.Common;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -36,7 +26,13 @@ namespace TestFWPanel
 
             _brushes = new Brush[]
             {
-                new SolidColorBrush(Color.FromArgb(255, 76, 217, 100)), new SolidColorBrush(Color.FromArgb(255, 0, 122, 255)), new SolidColorBrush(Color.FromArgb(255, 255, 150, 0)), new SolidColorBrush(Color.FromArgb(255, 255, 45, 85)), new SolidColorBrush(Color.FromArgb(255, 88, 86, 214)), new SolidColorBrush(Color.FromArgb(255, 255, 204, 0)), new SolidColorBrush(Color.FromArgb(255, 142, 142, 147)),
+                new SolidColorBrush(Color.FromArgb(255, 76, 217, 100)),
+                new SolidColorBrush(Color.FromArgb(255, 0, 122, 255)),
+                new SolidColorBrush(Color.FromArgb(255, 255, 150, 0)),
+                new SolidColorBrush(Color.FromArgb(255, 255, 45, 85)),
+                new SolidColorBrush(Color.FromArgb(255, 88, 86, 214)),
+                new SolidColorBrush(Color.FromArgb(255, 255, 204, 0)),
+                new SolidColorBrush(Color.FromArgb(255, 142, 142, 147)),
             };
 
             Loaded += MainWindow_Loaded;
@@ -87,7 +83,7 @@ namespace TestFWPanel
 
             fwPanel.ItemsSource = items;
 
-            PageDisplay = PageBase.PageDisplayType.Display3x4;
+            //PageDisplay = PageBase.PageDisplayType.Display3x4;
         }
 
         private void OnFWPSizeChanged(object sender, SizeChangedEventArgs e)
@@ -100,8 +96,11 @@ namespace TestFWPanel
             if ((rows.IsZero()) || (columns.IsZero()))
                 return;
 
-            var width = Math.Floor(fwPanel.Width/columns);
-            var height = Math.Floor(fwPanel.Height/rows);
+            var fwWidth = Double.IsNaN(fwPanel.Width) ? fwPanel.ActualWidth : fwPanel.Width;
+            var fwHeight = Double.IsNaN(fwPanel.Height) ? fwPanel.ActualHeight : fwPanel.Height;
+
+            var width = Math.Floor(fwWidth / columns);
+            var height = Math.Floor(fwHeight / rows);
 
             foreach (var child in fwPanel.FluidItems.OfType<FluidItemControl>())
             {

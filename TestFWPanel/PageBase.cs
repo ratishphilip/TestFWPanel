@@ -25,8 +25,8 @@ namespace TestFWPanel
         /// PageDisplay Dependency Property
         /// </summary>
         public static readonly DependencyProperty PageDisplayProperty =
-            DependencyProperty.Register("PageDisplay", typeof(PageDisplayType), typeof(MainPage),
-                new PropertyMetadata(PageBase.PageDisplayType.None, OnPageDisplayChanged));
+            DependencyProperty.Register("PageDisplay", typeof(PageDisplayType), typeof(PageBase),
+                new PropertyMetadata(PageBase.PageDisplayType.Display3x4, OnPageDisplayChanged));
 
         /// <summary>
         /// Gets or sets the PageDisplay property. This dependency property 
@@ -34,8 +34,8 @@ namespace TestFWPanel
         /// </summary>
         public PageBase.PageDisplayType PageDisplay
         {
-            get { return (PageBase.PageDisplayType)GetValue(PageDisplayProperty); }
-            set { SetValue(PageDisplayProperty, value); }
+            get => (PageBase.PageDisplayType)GetValue(PageDisplayProperty);
+            set => SetValue(PageDisplayProperty, value);
         }
 
         /// <summary>
@@ -81,8 +81,8 @@ namespace TestFWPanel
 
         #endregion
 
-        protected double rows = 0;
-        protected double columns = 0;
+        protected double rows = 3;
+        protected double columns = 4;
 
         protected virtual void RefreshPanel()
         {
